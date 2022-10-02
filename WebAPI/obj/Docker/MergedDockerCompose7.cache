@@ -1,0 +1,22 @@
+networks:
+  backend: {}
+services:
+  mongodb-shortUrl-service:
+    image: mongo:nanoserver
+    networks:
+      backend: null
+    ports:
+    - published: 27017
+      target: 27017
+    restart: always
+  webapi:
+    build:
+      context: D:\Projects\Url-Shorten-App\URL-Shortening-TU\WebAPI
+      dockerfile: ./Dockerfile
+    environment:
+      DB_HOST: mongodb-shortUrl-service
+      DB_NAME: UrlCollectionDb
+    image: webapi
+    networks:
+      backend: null
+version: '3.4'

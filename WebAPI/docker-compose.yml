@@ -1,0 +1,27 @@
+version: '3.4'
+
+networks:
+    backend:
+
+services:
+
+ mongodb-shortUrl-service:
+    image: mongo:nanoserver
+    restart: always
+    networks: 
+        - backend
+    ports: 
+        - 27017:27017
+
+ webapi:
+    image: ${DOCKER_REGISTRY-}webapi
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    networks: 
+        - backend
+    ports:
+        - 8002:80
+    environment: 
+        - DB_HOST=mongodb-shortUrl-service
+        - DB_NAME=UrlCollectionDb
